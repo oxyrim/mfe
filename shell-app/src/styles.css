@@ -1,0 +1,131 @@
+/* ── Design Tokens — Light (default) ─────────────────────────────────── */
+:root {
+  --ds-color-primary:  #004977;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #f4f6fa;
+  --ds-color-text:     #1a1a2e;
+  --ds-color-surface:  #ffffff;
+  --ds-color-border:   #dde3ed;
+  --ds-color-muted:    #6b7a90;
+  --ds-font-family:    'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ds-space-1: 0.25rem;  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;  --ds-space-4: 1rem;
+  --ds-space-6: 1.5rem;   --ds-space-8: 2rem;
+  --ds-radius: 6px;
+  --ds-shadow-sm: 0 1px 4px rgba(0,0,0,.10);
+  --ds-header-bg: #004977;
+}
+
+/* ── Design Tokens — Dark ─────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --ds-color-primary:  #3b9fd4;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #0d1b26;
+  --ds-color-text:     #d8e8f4;
+  --ds-color-surface:  #152231;
+  --ds-color-border:   #1e3347;
+  --ds-color-muted:    #6a8ba6;
+  --ds-shadow-sm:      0 1px 6px rgba(0,0,0,.4);
+  --ds-header-bg:      #09141d;
+}
+
+/* ── Reset ────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  color-scheme: light dark;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--ds-font-family);
+  background: var(--ds-color-bg);
+  color: var(--ds-color-text);
+}
+
+/* ── Shell header ─────────────────────────────────────────────────────── */
+.shell-header {
+  display: flex;
+  align-items: center;
+  gap: var(--ds-space-6);
+  padding: 0 var(--ds-space-6);
+  height: 56px;
+  background: var(--ds-header-bg);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,.28);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color 0.25s ease;
+}
+
+.shell-logo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.shell-nav { display: flex; gap: var(--ds-space-2); }
+
+.nav-btn {
+  padding: 0.4rem 1rem;
+  border: 2px solid rgba(255,255,255,.4);
+  border-radius: var(--ds-radius);
+  background: transparent;
+  color: rgba(255,255,255,.85);
+  font-family: var(--ds-font-family);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.nav-btn:hover  { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.7); color: #fff; }
+.nav-btn.active { background: rgba(255,255,255,.15); border-color: var(--ds-color-accent); color: #fff; }
+
+/* ── Toast ────────────────────────────────────────────────────────────── */
+.shell-toast {
+  margin-left: auto;
+  padding: 0.35rem 0.9rem;
+  background: var(--ds-color-accent);
+  color: #004977;
+  border-radius: var(--ds-radius);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  animation: toast-in 0.2s ease;
+}
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Theme toggle ─────────────────────────────────────────────────────── */
+.theme-toggle {
+  padding: 0.3rem 0.75rem;
+  border: 1.5px solid rgba(255,255,255,.3);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255,255,255,.85);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  margin-left: auto;
+}
+.theme-toggle:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); }
+
+/* ── Layout ───────────────────────────────────────────────────────────── */
+.shell-main { position: fixed; inset: 56px 0 0 0; }
+
+.mfe-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}

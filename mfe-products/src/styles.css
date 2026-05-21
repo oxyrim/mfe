@@ -1,0 +1,167 @@
+/* ── Design Tokens — Light ────────────────────────────────────────────── */
+:root {
+  --ds-color-primary:  #004977;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #f4f6fa;
+  --ds-color-text:     #1a1a2e;
+  --ds-color-surface:  #ffffff;
+  --ds-color-border:   #dde3ed;
+  --ds-color-muted:    #6b7a90;
+  --ds-color-success:  #1e7e34;
+  --ds-color-danger:   #c0392b;
+  --ds-font-family:    'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ds-space-1: 0.25rem;  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;  --ds-space-4: 1rem;
+  --ds-space-6: 1.5rem;   --ds-space-8: 2rem;
+  --ds-radius: 6px;
+  --ds-shadow-sm: 0 1px 4px rgba(0,0,0,.10);
+}
+
+/* ── Design Tokens — Dark ─────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --ds-color-primary:  #3b9fd4;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #0d1b26;
+  --ds-color-text:     #d8e8f4;
+  --ds-color-surface:  #152231;
+  --ds-color-border:   #1e3347;
+  --ds-color-muted:    #6a8ba6;
+  --ds-color-success:  #34a853;
+  --ds-color-danger:   #e05555;
+  --ds-shadow-sm:      0 1px 6px rgba(0,0,0,.4);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--ds-font-family);
+  background: var(--ds-color-bg);
+  color: var(--ds-color-text);
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+html { color-scheme: light dark; transition: background-color 0.25s ease; }
+
+/* ── Dark mode overrides ──────────────────────────────────────────────── */
+[data-theme="dark"] .filter-btn        { background: #152231; color: var(--ds-color-text); }
+[data-theme="dark"] .rate-primary      { border-bottom-color: var(--ds-color-border); }
+[data-theme="dark"] .rate-detail span  { color: var(--ds-color-muted); }
+
+/* ── Page layout ──────────────────────────────────────────────────────── */
+.page        { padding: var(--ds-space-6); max-width: 1040px; margin: 0 auto; }
+.page-header { display: flex; align-items: baseline; gap: var(--ds-space-4); margin-bottom: var(--ds-space-4); }
+.page-title  { font-size: 1.4rem; font-weight: 700; color: var(--ds-color-primary); }
+.rate-date   { font-size: 0.8rem; color: #6b7a90; margin-left: auto; }
+.rate-count  { font-size: 0.8rem; color: #6b7a90; margin-bottom: var(--ds-space-4); }
+
+/* ── Filter bar ───────────────────────────────────────────────────────── */
+.filter-bar { display: flex; gap: var(--ds-space-2); margin-bottom: var(--ds-space-3); flex-wrap: wrap; }
+
+.filter-btn {
+  padding: 0.3rem 0.85rem;
+  border: 1.5px solid var(--ds-color-border);
+  border-radius: 999px;
+  background: var(--ds-color-surface);
+  color: var(--ds-color-text);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.filter-btn:hover  { border-color: var(--ds-color-primary); color: var(--ds-color-primary); }
+.filter-btn.active { background: var(--ds-color-primary); border-color: var(--ds-color-primary); color: #fff; }
+
+/* ── Rate card grid ───────────────────────────────────────────────────── */
+.rates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: var(--ds-space-4);
+}
+
+/* ── Rate card internals ──────────────────────────────────────────────── */
+.rate-meta { display: flex; flex-direction: column; gap: 0; }
+
+.rate-primary {
+  text-align: center;
+  padding: var(--ds-space-4) 0 var(--ds-space-3);
+  border-bottom: 1px solid var(--ds-color-border);
+  margin-bottom: var(--ds-space-3);
+}
+
+.rate-value {
+  display: block;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--ds-color-primary);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.rate-label {
+  display: block;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7a90;
+  margin-top: 0.3rem;
+}
+
+/* Detail 2-column grid inside each card */
+.rate-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-space-2) var(--ds-space-3);
+  margin-bottom: var(--ds-space-3);
+}
+
+.rate-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.rate-detail span {
+  font-size: 0.67rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7a90;
+}
+
+.rate-detail strong {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--ds-color-text);
+}
+
+/* "Lock Rate" button — display:block so it spans full card width */
+.lock-btn {
+  display: block;
+  width: 100%;
+  margin-top: var(--ds-space-2);
+}
+
+/* ── Loan-type badges ─────────────────────────────────────────────────── */
+.loan-type-badge {
+  display: inline-block;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  vertical-align: middle;
+}
+.badge--conventional { background: #e3f0ff; color: #004977; }
+.badge--fha          { background: #fff3cd; color: #856404; }
+.badge--va           { background: #d4edda; color: #155724; }
+.badge--jumbo        { background: #f8d7da; color: #721c24; }
+.badge--usda         { background: #d1ecf1; color: #0c5460; }
+
+/* ── Empty state ──────────────────────────────────────────────────────── */
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--ds-space-8);
+  color: #6b7a90;
+  font-size: 0.9rem;
+}

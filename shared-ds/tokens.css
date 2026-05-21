@@ -1,0 +1,58 @@
+/* MortgageCo Design System — CSS Custom Properties
+   Inline this block into each app's src/styles.css, or serve as a
+   static asset via angular.json assets config (see README.md). */
+:root {
+  /* Brand palette */
+  --ds-color-primary:  #004977;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #f4f6fa;
+  --ds-color-text:     #1a1a2e;
+  --ds-color-surface:  #ffffff;
+  --ds-color-border:   #dde3ed;
+  --ds-color-success:  #1e7e34;
+  --ds-color-danger:   #c0392b;
+  --ds-color-warning:  #d68910;
+
+  /* 4-pt spacing scale */
+  --ds-space-1: 0.25rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-4: 1rem;
+  --ds-space-6: 1.5rem;
+  --ds-space-8: 2rem;
+
+  /* Typography */
+  --ds-font-family:        'Segoe UI', system-ui, -apple-system, sans-serif;
+  --ds-font-size-xs:       0.75rem;
+  --ds-font-size-sm:       0.875rem;
+  --ds-font-size-base:     1rem;
+  --ds-font-size-lg:       1.25rem;
+  --ds-font-size-xl:       1.5rem;
+  --ds-font-weight-normal: 400;
+  --ds-font-weight-bold:   700;
+
+  /* Shape */
+  /* NOTE: dark-mode overrides live in [data-theme="dark"] below */
+  --ds-radius:    6px;
+  --ds-radius-lg: 12px;
+  --ds-shadow-sm: 0 1px 4px rgba(0,0,0,.10);
+  --ds-shadow-md: 0 4px 12px rgba(0,0,0,.15);
+}
+
+/* ── Dark mode overrides ──────────────────────────────────────────────── */
+/* Applied when the shell sets document.documentElement[data-theme="dark"].
+   CSS custom properties cascade into shadow DOM, so ds-button and ds-card
+   pick up these values automatically without any JS changes. */
+[data-theme="dark"] {
+  --ds-color-primary:  #3b9fd4;
+  --ds-color-accent:   #d9a72c;
+  --ds-color-bg:       #0d1b26;
+  --ds-color-text:     #d8e8f4;
+  --ds-color-surface:  #152231;
+  --ds-color-border:   #1e3347;
+  --ds-color-success:  #34a853;
+  --ds-color-danger:   #e05555;
+  --ds-color-warning:  #f5a623;
+  --ds-shadow-sm:      0 1px 6px rgba(0,0,0,.4);
+  --ds-shadow-md:      0 4px 16px rgba(0,0,0,.55);
+}

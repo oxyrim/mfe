@@ -1,0 +1,39 @@
+<header class="shell-header">
+  <span class="shell-logo">MortgageCo — Loan Platform</span>
+
+  <nav class="shell-nav">
+    @for (app of apps; track app.path) {
+      <button
+        class="nav-btn"
+        [class.active]="activeApp() === app.path"
+        (click)="navigate(app.path)">
+        {{ app.label }}
+      </button>
+    }
+  </nav>
+
+  @if (toast()) {
+    <div class="shell-toast" role="status" (click)="dismissToast()">
+      {{ toast() }}
+    </div>
+  }
+
+  <button
+    class="theme-toggle"
+    (click)="themeService.toggle()"
+    [attr.aria-label]="'Switch to ' + (themeService.theme() === 'dark' ? 'light' : 'dark') + ' mode'">
+    {{ themeService.theme() === 'dark' ? 'Light' : 'Dark' }}
+  </button>
+</header>
+
+<main class="shell-main">
+  @for (app of apps; track app.path) {
+    <iframe
+      #mfeFrame
+      [src]="app.url"
+      [title]="app.label"
+      class="mfe-frame"
+      [style.display]="activeApp() === app.path ? 'block' : 'none'">
+    </iframe>
+  }
+</main>
