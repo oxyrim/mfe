@@ -67,26 +67,35 @@ html, body {
   white-space: nowrap;
 }
 
-.shell-nav { display: flex; gap: var(--ds-space-2); }
-
 .nav-btn {
-  padding: 0.4rem 1rem;
-  border: 2px solid rgba(255,255,255,.4);
-  border-radius: var(--ds-radius);
+  display: block;
+  width: 100%;
+  padding: 0.65rem var(--ds-space-4);
+  border: none;
+  border-left: 3px solid transparent;
+  border-radius: 0;
   background: transparent;
-  color: rgba(255,255,255,.85);
+  color: var(--ds-color-text);
   font-family: var(--ds-font-family);
   font-size: 0.875rem;
   font-weight: 600;
+  text-align: left;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
-.nav-btn:hover  { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.7); color: #fff; }
-.nav-btn.active { background: rgba(255,255,255,.15); border-color: var(--ds-color-accent); color: #fff; }
+.nav-btn:hover  { background: rgba(0,0,0,.06); color: var(--ds-color-primary); }
+.nav-btn.active {
+  background: rgba(0,73,119,.08);
+  border-left-color: var(--ds-color-primary);
+  color: var(--ds-color-primary);
+}
+[data-theme="dark"] .nav-btn:hover  { background: rgba(255,255,255,.07); color: var(--ds-color-primary); }
+[data-theme="dark"] .nav-btn.active { background: rgba(59,159,212,.12); border-left-color: var(--ds-color-primary); }
 
 /* ── Toast ────────────────────────────────────────────────────────────── */
 .shell-toast {
   margin-left: auto;
+  margin-right: var(--ds-space-2);
   padding: 0.35rem 0.9rem;
   background: var(--ds-color-accent);
   color: #004977;
@@ -119,8 +128,68 @@ html, body {
 }
 .theme-toggle:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.6); }
 
+/* ── Bell notification button ─────────────────────────────────────────── */
+.bell-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  border-radius: 50%;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.bell-btn:hover { background: rgba(255,255,255,.12); }
+
+.bell-badge {
+  position: absolute;
+  top: -2px;
+  right: -4px;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.25rem;
+  background: #e53e3e;
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  pointer-events: none;
+  animation: badge-pop 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badge-pop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
 /* ── Layout ───────────────────────────────────────────────────────────── */
-.shell-main { position: fixed; inset: 56px 0 0 0; }
+.shell-sidebar {
+  position: fixed;
+  inset: 56px auto 0 0;
+  width: 220px;
+  background: var(--ds-color-surface);
+  border-right: 1px solid var(--ds-color-border);
+  overflow-y: auto;
+  z-index: 90;
+  padding-top: var(--ds-space-4);
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.shell-sidebar .shell-nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-main { position: fixed; inset: 56px 0 0 220px; }
 
 .mfe-frame {
   position: absolute;

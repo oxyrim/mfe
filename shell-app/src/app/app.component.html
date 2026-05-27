@@ -1,6 +1,32 @@
 <header class="shell-header">
   <span class="shell-logo">MortgageCo — Loan Platform</span>
 
+  @if (toast()) {
+    <div class="shell-toast" role="status" (click)="dismissToast()">
+      {{ toast() }}
+    </div>
+  }
+
+  <!-- Platform notification bell + unread badge -->
+  <button
+    class="bell-btn"
+    (click)="platformWsService.resetCount()"
+    aria-label="Platform notifications">
+    🔔
+    @if (notificationCount() > 0) {
+      <span class="bell-badge">{{ notificationCount() }}</span>
+    }
+  </button>
+
+  <button
+    class="theme-toggle"
+    (click)="themeService.toggle()"
+    [attr.aria-label]="'Switch to ' + (themeService.theme() === 'dark' ? 'light' : 'dark') + ' mode'">
+    {{ themeService.theme() === 'dark' ? 'Light' : 'Dark' }}
+  </button>
+</header>
+
+<aside class="shell-sidebar">
   <nav class="shell-nav">
     @for (app of apps; track app.path) {
       <button
@@ -11,20 +37,7 @@
       </button>
     }
   </nav>
-
-  @if (toast()) {
-    <div class="shell-toast" role="status" (click)="dismissToast()">
-      {{ toast() }}
-    </div>
-  }
-
-  <button
-    class="theme-toggle"
-    (click)="themeService.toggle()"
-    [attr.aria-label]="'Switch to ' + (themeService.theme() === 'dark' ? 'light' : 'dark') + ' mode'">
-    {{ themeService.theme() === 'dark' ? 'Light' : 'Dark' }}
-  </button>
-</header>
+</aside>
 
 <main class="shell-main">
   @for (app of apps; track app.path) {

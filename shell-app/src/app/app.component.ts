@@ -1,15 +1,19 @@
 import {
+  AfterViewInit,
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
   DestroyRef,
-  ElementRef,
+  OnDestroy,
   effect,
   inject,
   signal,
   viewChildren,
+  ElementRef,
 } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ThemeService } from './theme.service';
+import { PlatformWsService } from './platform-ws.service';
 
 interface MfeApp {
   label: string;
@@ -30,13 +34,20 @@ interface BusEnvelope {
   templateUrl: './app.component.html',
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppComponent {
-  private readonly sanitizer  = inject(DomSanitizer);
-  private readonly destroyRef = inject(DestroyRef);
-  readonly themeService       = inject(ThemeService);
+export class AppComponent implements AfterViewInit, OnDestroy {
+  private readonly sanitizer        = inject(DomSanitizer);
+  private readonly destroyRef       = inject(DestroyRef);
+  readonly themeService             = inject(ThemeService);
+  readonly platformWsService        = inject(PlatformWsService);
 
   readonly activeApp = signal('orders');
   readonly toast     = signal<string | null>(null);
+
+  /** Unread platform notification count — converts Observable to signal. */
+  readonly notificationCount = toSignal(
+    this.platformWsService.notificationCount$,
+    { initialValue: 0 }
+  );
 
   readonly apps: MfeApp[] = [
     { label: 'Loan Pipeline', path: 'orders',   port: 4201 },
@@ -65,6 +76,20 @@ export class AppComponent {
     const handler = (e: MessageEvent) => this.relay(e);
     window.addEventListener('message', handler);
     this.destroyRef.onDestroy(() => window.removeEventListener('message', handler));
+  }
+
+  ngAfterViewInit(): void {
+    // Register all persistent iframes with PlatformWsService so it can relay
+    // platform notifications into each MFE context.
+    for (const ref of this.iframes()) {
+      this.platformWsService.registerIframe(ref.nativeElement);
+    }
+    this.platformWsService.connect();
+  }
+
+  ngOnDestroy(): void {
+    this.platformWsService.disconnect();
+    if (this.toastTimer) clearTimeout(this.toastTimer);
   }
 
   navigate(path: string): void { this.activeApp.set(path); }
