@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { OrdersWsService, OrderNotification } from './orders-ws.service';
+import { OrdersWsService, LoanNotification } from './orders-ws.service';
 
 interface MfeBusType {
   emit(type: string, payload?: unknown): void;
@@ -43,7 +43,7 @@ interface RateSuggestion {
 
 interface PlatformNotification {
   id: string;
-  type: 'system_alert' | 'maintenance' | 'broadcast';
+  type: 'rate_sheet_published' | 'market_update' | 'compliance_notice';
   title: string;
   message: string;
   timestamp: string;
@@ -173,10 +173,10 @@ interface PlatformNotification {
         </ds-card>
       }
 
-      <!-- Order WebSocket notifications -->
+      <!-- Loan Pipeline live events via WebSocket -->
       @if (notifications().length > 0) {
         <ds-card class="notif-panel">
-          <span slot="header">Order Notifications</span>
+          <span slot="header">Live Pipeline Activity</span>
           @for (n of notifications(); track n.id) {
             <div class="notif-item notif-item--{{ n.type }}">
               <span class="notif-msg">{{ n.message }}</span>
@@ -199,7 +199,7 @@ export class OrdersComponent implements OnInit, OnDestroy {
   // ── State signals ───────────────────────────────────────────────────────────
   readonly selectedStatus       = signal<LoanStatus>('All');
   readonly rateSuggestions      = signal<RateSuggestion[]>([]);
-  readonly notifications        = signal<OrderNotification[]>([]);
+  readonly notifications        = signal<LoanNotification[]>([]);
   readonly platformNotifications = signal<PlatformNotification[]>([]);
 
   readonly statuses: LoanStatus[] = [

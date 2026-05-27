@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 
-export interface ProductNotification {
+export interface RateNotification {
   id: string;
-  type: 'stock_low' | 'price_changed' | 'new_arrival';
-  productId: string;
+  type: 'rate_updated' | 'rate_expired' | 'market_alert';
+  productId: string | null;
   message: string;
   timestamp: string;
 }
@@ -12,15 +12,15 @@ export interface ProductNotification {
 @Injectable({ providedIn: 'root' })
 export class ProductsWsService {
   private ws: WebSocket | null = null;
-  private readonly subject = new Subject<ProductNotification>();
-  readonly events$: Observable<ProductNotification> = this.subject.asObservable();
+  private readonly subject = new Subject<RateNotification>();
+  readonly events$: Observable<RateNotification> = this.subject.asObservable();
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
   private intentionalClose = false;
 
   connect(): void {
     this.intentionalClose = false;
     try {
-      this.ws = new WebSocket('ws://localhost:3001/ws/products');
+      this.ws = new WebSocket('ws://localhost:3001/ws/rates');
     } catch {
       this.scheduleReconnect();
       return;
@@ -28,7 +28,7 @@ export class ProductsWsService {
 
     this.ws.onmessage = (event: MessageEvent) => {
       try {
-        const data = JSON.parse(event.data as string) as ProductNotification;
+        const data = JSON.parse(event.data as string) as RateNotification;
         this.subject.next(data);
       } catch { /* ignore parse errors */ }
     };
@@ -37,7 +37,6 @@ export class ProductsWsService {
       if (!this.intentionalClose) this.scheduleReconnect();
     };
 
-    // onerror always fires before onclose; reconnect is handled there
     this.ws.onerror = () => {};
   }
 

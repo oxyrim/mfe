@@ -182,9 +182,10 @@ html { color-scheme: light dark; transition: background-color 0.25s ease; }
 }
 .notif-item:last-child { border-bottom: none; }
 
-.notif-item--stock_low     { border-left-color: var(--ds-color-danger);  }
-.notif-item--price_changed { border-left-color: var(--ds-color-primary); }
-.notif-item--new_arrival   { border-left-color: var(--ds-color-success); }
+/* blue = rate change, red = lock expiry, amber = market alert */
+.notif-item--rate_updated  { border-left-color: var(--ds-color-primary); }
+.notif-item--rate_expired  { border-left-color: var(--ds-color-danger);  }
+.notif-item--market_alert  { border-left-color: var(--ds-color-warning); }
 
 .notif-msg  { flex: 1; }
 .notif-time { font-size: 0.72rem; color: var(--ds-color-muted); white-space: nowrap; font-family: 'Courier New', monospace; }

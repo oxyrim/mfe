@@ -212,9 +212,10 @@ body {
 }
 .notif-item:last-child { border-bottom: none; }
 
-.notif-item--order_placed    { border-left-color: var(--ds-color-success); }
-.notif-item--order_updated   { border-left-color: var(--ds-color-warning); }
-.notif-item--order_cancelled { border-left-color: var(--ds-color-danger);  }
+/* green = new submission, blue = status change, amber = action required */
+.notif-item--loan_submitted    { border-left-color: var(--ds-color-success); }
+.notif-item--status_changed    { border-left-color: var(--ds-color-primary); }
+.notif-item--document_required { border-left-color: var(--ds-color-warning); }
 
 .notif-msg  { flex: 1; }
 .notif-time { font-size: 0.72rem; color: var(--ds-color-muted); white-space: nowrap; font-family: 'Courier New', monospace; }

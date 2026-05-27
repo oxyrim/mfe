@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface PlatformNotification {
   id: string;
-  type: 'system_alert' | 'maintenance' | 'broadcast';
+  type: 'rate_sheet_published' | 'market_update' | 'compliance_notice';
   title: string;
   message: string;
   timestamp: string;
@@ -61,7 +61,6 @@ export class PlatformWsService {
 
   private relay(msg: PlatformNotification): void {
     this.countSubject.next(this.countSubject.getValue() + 1);
-
     for (const iframe of this.iframes) {
       // In local dev '*' is acceptable; production must use the exact MFE origin.
       iframe.contentWindow?.postMessage(

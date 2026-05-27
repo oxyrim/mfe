@@ -9,7 +9,7 @@ import {
   computed,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { ProductsWsService, ProductNotification } from './products-ws.service';
+import { ProductsWsService, RateNotification } from './products-ws.service';
 
 interface MfeBusType {
   emit(type: string, payload?: unknown): void;
@@ -35,7 +35,7 @@ interface RateProduct {
 
 interface PlatformNotification {
   id: string;
-  type: 'system_alert' | 'maintenance' | 'broadcast';
+  type: 'rate_sheet_published' | 'market_update' | 'compliance_notice';
   title: string;
   message: string;
   timestamp: string;
@@ -147,10 +147,10 @@ interface PlatformNotification {
         </ds-card>
       }
 
-      <!-- Product WebSocket notifications -->
+      <!-- Rate Sheet live events via WebSocket -->
       @if (notifications().length > 0) {
         <ds-card class="notif-panel">
-          <span slot="header">Product Notifications</span>
+          <span slot="header">Live Rate Activity</span>
           @for (n of notifications(); track n.id) {
             <div class="notif-item notif-item--{{ n.type }}">
               <span class="notif-msg">{{ n.message }}</span>
@@ -172,7 +172,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   // ── State signals ───────────────────────────────────────────────────────────
   readonly filterType            = signal<LoanType>('All');
   readonly lastLocked            = signal<string | null>(null);
-  readonly notifications         = signal<ProductNotification[]>([]);
+  readonly notifications         = signal<RateNotification[]>([]);
   readonly platformNotifications = signal<PlatformNotification[]>([]);
 
   readonly loanTypes: LoanType[] = ['All', 'Conventional', 'FHA', 'VA', 'Jumbo', 'USDA'];
